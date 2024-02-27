@@ -1,0 +1,100 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Ubuntu", sans-serif;
+    color: white;
+}
+:root {
+    --firstColor: #183A37;
+    --secondColor: #584D3D;
+    --sectionMargin:5px;
+}
+body {
+    height: 100vh;
+  
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+}
+
+.header {
+    margin: var(--sectionMargin);
+    grid-column: 1 / 3;
+    height: 120px;
+    background-color: var(--firstColor);
+    position: relative;
+}
+
+.heading {
+    padding: 8px;
+    font-size: 55px;
+    position: absolute;
+    bottom: 0;
+    font-family: "Rubik", sans-serif;
+}
+
+.sidebar {
+    grid-column:1 ;
+    background-color: var(--firstColor);
+    margin: var(--sectionMargin);
+    display: grid;
+    grid-template-rows: minmax(75vh, 1fr);
+}
+
+.user-current-book-status {
+    padding: 25px 0 0 15px;
+}
+
+
+.total-book {
+    margin-bottom: 5px;
+}
+
+.total-read-book {
+    margin-bottom: 5px;
+}
+
+
+.card-container {
+    grid-column: 2;
+    margin: var(--sectionMargin);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.card div p:first-child{
+    font-family: "Rubik", sans-serif;
+    font-size: 20px;
+    padding-bottom: 3px;
+}
+
+.card div p:last-child {
+    padding-left: 21px;
+}
+
+.card {
+    height: 255px;
+    padding: 8px;
+    background-color: var(--secondColor);
+}
+
+.card div {
+    margin-bottom: 8px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+.button button {
+    font-size: 20px;
+    padding: 7px;
+    width: 120px;
+    border-radius: 15px;
+    background-color: var(--firstColor);
+}
+

@@ -1,3 +1,4 @@
+
 const library = [];
 
 function Book(name, author, pages, status) {
@@ -14,6 +15,33 @@ function addBookToLibrary(name, author, pages, status) {
     let newBook = new Book(name, author, pages, status);
     library.push(newBook);
 }
+
+const btnToShowDialog = document.getElementById('show-dialog');
+const popUpDialog = document.getElementById('add-book-dialog');
+const confirmBtn = document.getElementById('confirm-btn');
+
+btnToShowDialog.addEventListener('click', () => {
+popUpDialog.showModal();
+});
+
+
+
+confirmBtn.addEventListener('click', (e) => {
+    const title = document.getElementById('title');
+const author = document.getElementById('author');
+const pages = document.getElementById('pages');
+const status = document.getElementById('status');
+
+    let currentStatus = "";
+
+    if (status.checked) {
+        currentStatus = "Read"
+    }   else {
+        currentStatus = "Not read yet"
+    }
+    addBookToLibrary(title.value, author.value, pages.value, currentStatus);
+});
+
 
 
 
@@ -58,5 +86,7 @@ function displayBook(library) {
 }
 
 displayBook(library);
+
+
 
 

@@ -31,6 +31,44 @@
                     <span></span>
                 </div>
             </div>
+            <div class="add-book-button">
+                <dialog id="add-book-dialog" class="dialog-container">
+                    <form>
+                        <div class="form-row">
+                            <label for="title">Title:</label><br>
+                            <input type="text" id="title">
+                        </div>
+                        <div class="form-row">
+                            <label for="author">Author:</label><br>
+                            <input type="text" id="author">
+                        </div>
+                        <div class="form-row">
+                            <label for="pages">Pages: </label><br>
+                            <input 
+                            type="number" 
+                            id="pages"
+                            min="0"
+                            max="999"
+                            value="0">
+                        </div>
+                        <div>
+                            <label for="status">
+                                <input type="checkbox"
+                                id="status"
+                                value="read">
+                                <span>Done reading</span>
+                            </label>
+                        </div>
+                        <div class="dialog-button">
+                            <button id="confirm-btn">Confirm</button>
+                            <button formmethod="dialog" autofocus>X</button>
+                        </div>
+                    </form>
+                </dialog>
+                <div class="add-button">
+                    <button id="show-dialog"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg></button>
+                </div>
+            </div>
         </div>
         <div class="card-container">
             <div class="card">

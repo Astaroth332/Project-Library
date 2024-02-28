@@ -1,6 +1,6 @@
-
-const library = [];
-
+let library = [
+{name:"tae",author:"gago",pages:34,status:"Read" }
+];
 function Book(name, author, pages, status) {
     this.name = name;
     this.author = author;
@@ -18,42 +18,43 @@ function addBookToLibrary(name, author, pages, status) {
 
 const btnToShowDialog = document.getElementById('show-dialog');
 const popUpDialog = document.getElementById('add-book-dialog');
-const confirmBtn = document.getElementById('confirm-btn');
+const confirmBtn = popUpDialog.querySelector('#confirm-btn');
+const inputTitle = document.querySelector('#title');
+const inputAuthor = document.querySelector('#author');
+const inputPages = document.querySelector('#pages');
+const inputStatus = document.querySelector('#status');
 
 btnToShowDialog.addEventListener('click', () => {
 popUpDialog.showModal();
 });
 
+popUpDialog.addEventListener('close', () => {
+    inputTitle.value = "";
+    inputAuthor.value = "";
+    inputPages.value = "";
+    inputStatus.checked = false;
 
+});
 
 confirmBtn.addEventListener('click', (e) => {
-    const title = document.getElementById('title');
-const author = document.getElementById('author');
-const pages = document.getElementById('pages');
-const status = document.getElementById('status');
-
-    let currentStatus = "";
-
-    if (status.checked) {
-        currentStatus = "Read"
-    }   else {
-        currentStatus = "Not read yet"
+    e.preventDefault();
+    let status = inputStatus.checked ? "Read" : "Not read yet";
+    if (inputTitle.value != "" && inputAuthor.value != "" && inputPages.value != "" && status != "" ) {
+        addBookToLibrary(inputTitle.value, inputAuthor.value , inputPages.value, status);
+        displayBook();
     }
-    addBookToLibrary(title.value, author.value, pages.value, currentStatus);
+    popUpDialog.close();
 });
 
 
 
 
-
-function displayBook(library) {
-
+function displayBook() {
     const cardContainer = document.querySelector('.card-container');
-
+    cardContainer.innerHTML = "";
     for(const book of library) {
         const div = document.createElement('div');
         div.classList.add('card');
-
         div.innerHTML = `
         <div class="book-title">
                     <p>Title:</p>
@@ -85,7 +86,7 @@ function displayBook(library) {
   
 }
 
-displayBook(library);
+displayBook();
 
 
 

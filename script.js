@@ -1,6 +1,4 @@
-let library = [
-{name:"tae",author:"gago",pages:34,status:"Read" }
-];
+let library = [];
 function Book(name, author, pages, status) {
     this.name = name;
     this.author = author;
@@ -11,9 +9,13 @@ function Book(name, author, pages, status) {
     }
 };
 
+let index = 0;
+
 function addBookToLibrary(name, author, pages, status) {
     let newBook = new Book(name, author, pages, status);
+    newBook.index = index;
     library.push(newBook);
+    index++;
 }
 
 const btnToShowDialog = document.getElementById('show-dialog');
@@ -55,6 +57,7 @@ function displayBook() {
     for(const book of library) {
         const div = document.createElement('div');
         div.classList.add('card');
+        div.dataset.bookIndex = book.index;
         div.innerHTML = `
         <div class="book-title">
                     <p>Title:</p>
@@ -83,10 +86,40 @@ function displayBook() {
         `
         cardContainer.appendChild(div);
     }
-  
+
+    const deleteButtons = document.querySelectorAll('.delete-button button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            const cardIndex = parseInt(card.dataset.bookIndex);
+            library.splice(cardIndex,1);
+            displayBook();
+        });
+    });
+
+    
+    const readButtons = document.querySelectorAll('.read-button button');
+    readButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const card = button.closest('.card');
+            const cardIndex = parseInt(card.dataset.bookIndex);
+            const book = library[cardIndex];
+            book.toggleReadStatus(); // Toggle the read status
+            displayBook(); // Update the displayed book list
+
+        });
+    });
+
 }
 
 displayBook();
+
+
+Book.prototype.toggleReadStatus = function() {
+    this.status = this.status === "Read" ? "Not read yet" : "Read";
+}
+
+
 
 
 

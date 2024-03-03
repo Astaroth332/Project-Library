@@ -1,21 +1,50 @@
 let library = [];
+
+function generateID() {
+    return Math.floor(Date.now() % (Math.random() * 1000))
+}
+
 function Book(name, author, pages, status) {
     this.name = name;
     this.author = author;
     this.pages = pages;
     this.status = status;
-    this.info = function() {
-        return `${this.name} by ${this.author}, ${this.pages} pages, ${this.status}.`;
-    }
+    this.id = generateID();
 };
-
-let index = 0;
-
+ 
 function addBookToLibrary(name, author, pages, status) {
     let newBook = new Book(name, author, pages, status);
-    newBook.index = index;
     library.push(newBook);
-    index++;
+    updateTotalBookCount();
+    updateTotalReadAndUnreadCount();
+}
+
+function updateTotalBookCount() {
+    const totalBook = document.querySelector('.total-book div + span');
+    totalBook.textContent = library.length;
+}
+
+Book.prototype.toggleReadStatusButton = function(){
+    this.status = this.status === "Read" ? "Not read" : "Read";
+    updateTotalReadAndUnreadCount();
+}
+
+function updateTotalReadAndUnreadCount() {
+    const totalRead = document.querySelector('.total-read-book div + span');
+    const totalUnread = document.querySelector('.total-unread-book div + span');
+    let readCount = 0;
+    let unreadCount = 0;
+
+    library.forEach(book => {
+        if (book.status === "Read") {
+            readCount++;
+        }else if (book.status === "Not read") {
+            unreadCount++;
+        }
+    });
+
+    totalRead.textContent = readCount;
+    totalUnread.textContent = unreadCount;
 }
 
 const btnToShowDialog = document.getElementById('show-dialog');
@@ -42,22 +71,22 @@ confirmBtn.addEventListener('click', (e) => {
     e.preventDefault();
     let status = inputStatus.checked ? "Read" : "Not read yet";
     if (inputTitle.value != "" && inputAuthor.value != "" && inputPages.value != "" && status != "" ) {
-        addBookToLibrary(inputTitle.value, inputAuthor.value , inputPages.value, status);
+        addBookToLibrary(inputTitle.value, inputAuthor.value, inputPages.value, status);
         displayBook();
     }
     popUpDialog.close();
 });
 
-
-
-
 function displayBook() {
     const cardContainer = document.querySelector('.card-container');
     cardContainer.innerHTML = "";
+    let index = 0;
+
     for(const book of library) {
         const div = document.createElement('div');
         div.classList.add('card');
-        div.dataset.bookIndex = book.index;
+        div.setAttribute('data-book-index', index); 
+        div.dataset.bookIndex = index++;
         div.innerHTML = `
         <div class="book-title">
                     <p>Title:</p>
@@ -80,11 +109,12 @@ function displayBook() {
                         <button>Read</button>
                     </div>
                     <div class="delete-button">
-                        <button>Delete</button>
+                        <button id="delete";>Delete</button>
                     </div>
                 </div>
         `
         cardContainer.appendChild(div);
+        
     }
 
     const deleteButtons = document.querySelectorAll('.delete-button button');
@@ -92,35 +122,25 @@ function displayBook() {
         button.addEventListener('click', (e) => {
             const card = e.target.closest('.card');
             const cardIndex = parseInt(card.dataset.bookIndex);
-            library.splice(cardIndex,1);
+            const bookID = library[cardIndex].id;
+            library = library.filter(book => book.id !== bookID);
+            updateTotalBookCount();
+            updateTotalReadAndUnreadCount();
             displayBook();
         });
     });
 
-    
     const readButtons = document.querySelectorAll('.read-button button');
     readButtons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click',(e)  => {
             const card = button.closest('.card');
             const cardIndex = parseInt(card.dataset.bookIndex);
-            const book = library[cardIndex];
-            book.toggleReadStatus(); // Toggle the read status
-            displayBook(); // Update the displayed book list
-
+            const currentBook = library[cardIndex];
+            currentBook.toggleReadStatusButton();
+            displayBook();
         });
     });
 
 }
 
 displayBook();
-
-
-Book.prototype.toggleReadStatus = function() {
-    this.status = this.status === "Read" ? "Not read yet" : "Read";
-}
-
-
-
-
-
-

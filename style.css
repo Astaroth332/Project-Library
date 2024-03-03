@@ -41,7 +41,7 @@ body {
     background-color: var(--firstColor);
     margin: var(--sectionMargin);
     display: grid;
-    grid-template-rows: minmax(75vh, 1fr);
+    grid-template-rows: minmax(74vh, 1fr);
 }
 
 .user-current-book-status {
@@ -81,7 +81,7 @@ body {
 dialog {
     background-color: #584D3D;
     height: 62vh;
-    width: 30vw;
+    width: 350px;
     position: relative;
 }
 
@@ -181,3 +181,29 @@ form div {
     background-color: var(--firstColor);
 }
 
+.total-book {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-book div + span {
+    padding-right:15px ;
+}
+
+.total-read-book {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-read-book div + span {
+    padding-right:15px ;
+}
+
+.total-unread-book {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-unread-book div + span {
+    padding-right:15px ;
+}
